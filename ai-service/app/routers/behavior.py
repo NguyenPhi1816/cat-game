@@ -7,7 +7,12 @@ router = APIRouter()
 
 @router.post("/plan", response_model=BehaviorResponse)
 async def plan(request: BehaviorRequest):
-    action, reason = plan_behavior(request.cat_status, request.personality)
+    action, reason = plan_behavior(
+        request.cat_status,
+        request.personality,
+        request.economy_state,
+        request.player_state,
+    )
     return BehaviorResponse(
         cat_id=request.cat_id,
         action=action,

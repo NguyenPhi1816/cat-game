@@ -12,6 +12,7 @@ class PersonalityProfile(BaseModel):
 class PersonalityRequest(BaseModel):
     seed: int | None = None
     player_id: str
+    player_preference: str | None = None  # e.g. "I want an active cat"
 
 
 class PersonalityResponse(BaseModel):

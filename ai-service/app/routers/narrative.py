@@ -11,5 +11,6 @@ async def create_narrative(request: NarrativeRequest):
         cat_name=request.cat_id,
         actions=request.actions_taken,
         hours=request.time_elapsed_hours,
+        personality_type=request.personality_type,
     )
     return NarrativeResponse(cat_id=request.cat_id, summary=summary)

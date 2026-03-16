@@ -1,0 +1,14 @@
+# dependencies
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# environment
+.env
+
+# build
+dist/
+*.egg-info/

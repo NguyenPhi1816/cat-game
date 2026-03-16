@@ -8,7 +8,7 @@ router = APIRouter()
 
 @router.post("/generate", response_model=PersonalityResponse)
 async def create_personality(request: PersonalityRequest):
-    profile = generate_personality(request.seed)
+    profile = generate_personality(request.seed, request.player_preference)
     return PersonalityResponse(
         cat_id=str(uuid.uuid4()),
         personality=profile,

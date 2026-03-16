@@ -1,36 +1,37 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { QuestService } from './quest.service';
-import { CreateJobDto } from './dto/create-job.dto';
+import { AssignJobDto } from './dto/assign-job.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('quests')
 export class QuestController {
   constructor(private readonly questService: QuestService) {}
 
-  @Post('jobs')
-  createJob(@Body() dto: CreateJobDto) {
-    return this.questService.createJob(dto);
-  }
-
   @Get('jobs')
-  findAllJobs() {
-    return this.questService.findAllJobs();
+  getJobs() {
+    return this.questService.getJobs();
   }
 
-  @Get('jobs/:id')
-  findJob(@Param('id') id: string) {
-    return this.questService.findJobById(id);
-  }
-
-  @Post('jobs/:jobId/assign/:catId')
-  assignCat(
-    @Param('jobId') jobId: string,
-    @Param('catId') catId: string,
+  @Post('assign')
+  assignJob(
+    @CurrentUser() user: { userId: string },
+    @Body() dto: AssignJobDto,
   ) {
-    return this.questService.assignCatToJob(catId, jobId);
+    return this.questService.assignJob(user.userId, dto);
   }
 
-  @Get('cats/:catId/jobs')
-  getCatJobs(@Param('catId') catId: string) {
-    return this.questService.getCatJobs(catId);
+  @Post('complete/:catJobId')
+  completeJob(
+    @CurrentUser() user: { userId: string },
+    @Param('catJobId') catJobId: string,
+  ) {
+    return this.questService.completeJob(user.userId, catJobId);
+  }
+
+  @Get('active')
+  getActiveJobs(@CurrentUser() user: { userId: string }) {
+    return this.questService.getActiveJobs(user.userId);
   }
 }

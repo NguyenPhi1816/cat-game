@@ -5,6 +5,7 @@ class NarrativeRequest(BaseModel):
     cat_id: str
     actions_taken: list[str]
     time_elapsed_hours: float
+    personality_type: str | None = None
 
 
 class NarrativeResponse(BaseModel):

@@ -1,33 +1,39 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { EconomyService } from './economy.service';
+import { BuyItemDto } from './dto/buy-item.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('economy')
 export class EconomyController {
   constructor(private readonly economyService: EconomyService) {}
 
-  @Get('wallet/:playerId')
-  getWallet(@Param('playerId') playerId: string) {
-    return this.economyService.getWallet(playerId);
+  @Get('wallet')
+  getWallet(@CurrentUser() user: { userId: string }) {
+    return this.economyService.getWallet(user.userId);
   }
 
-  @Post('wallet')
-  createWallet(@Body('playerId') playerId: string) {
-    return this.economyService.createWallet(playerId);
+  @Get('shop')
+  getShopItems() {
+    return this.economyService.getShopItems();
   }
 
-  @Post('wallet/:playerId/add')
-  addMoney(
-    @Param('playerId') playerId: string,
-    @Body('amount') amount: number,
+  @Get('recipes')
+  getRecipes() {
+    return this.economyService.getRecipes();
+  }
+
+  @Post('buy')
+  buyItem(
+    @CurrentUser() user: { userId: string },
+    @Body() dto: BuyItemDto,
   ) {
-    return this.economyService.addMoney(playerId, amount);
+    return this.economyService.buyItem(user.userId, dto);
   }
 
-  @Post('wallet/:playerId/spend')
-  spendMoney(
-    @Param('playerId') playerId: string,
-    @Body('amount') amount: number,
-  ) {
-    return this.economyService.spendMoney(playerId, amount);
+  @Get('inventory')
+  getInventory(@CurrentUser() user: { userId: string }) {
+    return this.economyService.getInventory(user.userId);
   }
 }
