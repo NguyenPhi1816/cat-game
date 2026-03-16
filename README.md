@@ -68,13 +68,29 @@ npx expo start
 # Scan QR code with Expo Go app
 ```
 
+### Run everything (Windows)
+
+Run the convenience PowerShell script which starts Docker infra and opens each service in its own PowerShell window:
+
+```powershell
+./run-all.ps1
+```
+
+### Run everything (macOS / Linux)
+
+Run the shell script which starts Docker infra and background-starts each service:
+
+```bash
+./run-all.sh
+```
+
 ## Environment Variables
 
-| Service    | File              | Key variables                           |
-|------------|-------------------|-----------------------------------------|
-| backend    | `backend/.env`    | DATABASE_*, JWT_SECRET, AI_SERVICE_URL  |
-| ai-service | `ai-service/.env` | MODEL_NAME, MODEL_PATH                  |
-| mobile     | `mobile/.env`     | EXPO_PUBLIC_API_URL                     |
+| Service    | File              | Key variables                            |
+| ---------- | ----------------- | ---------------------------------------- |
+| backend    | `backend/.env`    | DATABASE\_\*, JWT_SECRET, AI_SERVICE_URL |
+| ai-service | `ai-service/.env` | MODEL_NAME, MODEL_PATH                   |
+| mobile     | `mobile/.env`     | EXPO_PUBLIC_API_URL                      |
 
 ## Key Features
 
